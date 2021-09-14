@@ -55,7 +55,6 @@ export default {
       var self = this;
       return this.axios.get(api).then((response) => {
         if (response["data"]["status"] == "OK") {
-          console.log(response["data"]);
           self.pul_info = response["data"]["data"]["list"];
           return response["data"];
         } else {
@@ -65,7 +64,6 @@ export default {
     },
     getDetail(index) {
       let token = this.token;
-      console.log("this.pul_info: " + this.pul_info);
       let pul_id = this.pul_info[index]["id"];
       let routeData = this.$router.resolve({
         name: "predict-pul",
@@ -79,9 +77,7 @@ export default {
       return this.axios.get(api).then((response) => {
         if (response["data"]["status"] == "OK") {
           self.status = response["data"]["data"]["status"];
-          console.log("status: " + self.status);
           if (self.status === "SUCCESS") {
-            console.log("RUN SUCCESS");
             clearInterval(this.timer);
           }
         } else {
