@@ -5,6 +5,8 @@ import Home from "./views/Home.vue";
 import Search from "./views/Search.vue";
 import Browse from "./views/Browse.vue";
 import Download from "./views/Download.vue";
+import Predict from "./views/Predict.vue";
+import PredictResult from "./views/PredictResult.vue";
 import Links from "./views/Links.vue";
 import Help from "./views/Help.vue";
 import PUL from "./views/PUL.vue";
@@ -46,6 +48,24 @@ export default new Router({
       component: Download,
       meta: {
         title: "Download - Sift-PULs",
+      },
+    },
+    {
+      path: "/predict",
+      name: "predict",
+      component: Predict,
+    },
+    {
+      path: "/predict/:token",
+      name: "predict-result",
+      component: PredictResult,
+    },
+    {
+      path: "/predict/:token/puls/:pul_id",
+      name: "predict-pul",
+      component: PUL,
+      meta: {
+        title: "PUL Details - Sift-PULs",
       },
     },
     {

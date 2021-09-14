@@ -51,7 +51,7 @@
                       </el-table-column>
                     </el-table>
                   </div>
-                  <div>
+                  <div v-if="!is_predict">
                     <p>
                       <strong>Download</strong>:&nbsp;
                       <a :href="dl_dna_link" target="_blank">DNA</a>&nbsp;&nbsp;
@@ -158,6 +158,7 @@ export default {
   data() {
     return {
       data: {},
+      is_predict: false,
       pul_info: [],
       pul_content: [],
       gggenes_base64: "",
@@ -175,9 +176,18 @@ export default {
     getData: function () {
       var api = "/api";
       var self = this;
-
+      if (this.$route.params.token !== undefined) {
+        self.is_predict = true;
+        api =
+          "/api/predict/" +
+          this.$route.params.token +
+          "/puls/" +
+          this.$route.params.pul_id;
+      } else {
+        api = "/api/" + this.$route.params.pul_id;
+      }
       return this.axios
-        .get(api + "/" + this.$route.params.pul_id)
+        .get(api)
         .then(function (response) {
           //console.log(response);
           if (response["data"]["status"] == "OK") {
@@ -224,8 +234,20 @@ export default {
       var api = "/api";
       var self = this;
 
+      if (this.$route.params.token !== undefined) {
+        self.is_predict = true;
+        api =
+          "/api/predict/" +
+          this.$route.params.token +
+          "/puls/" +
+          this.$route.params.pul_id +
+          "/gggenes";
+      } else {
+        api = "/api/" + this.$route.params.pul_id + "/gggenes";
+      }
+
       return this.axios
-        .get(api + "/" + this.$route.params.pul_id + "/" + "gggenes")
+        .get(api)
         .then(function (response) {
           //console.log(response);
           if (response["data"]["status"] == "OK") {

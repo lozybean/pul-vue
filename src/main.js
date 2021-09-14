@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import qs from 'qs'
+import uploader from 'vue-simple-uploader'
 
 import ECharts from 'vue-echarts' // 在 webpack 环境下指向 components/ECharts.vue
 // 手动引入 ECharts 各模块来减小打包体积
@@ -18,7 +19,7 @@ import 'echarts/lib/component/tooltip'
 
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
-
+Vue.use(uploader)
 Vue.prototype.$qs = qs
 
 // 注册组件后即可使用

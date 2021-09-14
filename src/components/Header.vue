@@ -16,6 +16,7 @@
         <el-menu-item index="/search">Search</el-menu-item>
         <el-menu-item index="/browse">Browse</el-menu-item>
         <el-menu-item index="/download">Download</el-menu-item>
+        <el-menu-item index="/predict">Predict</el-menu-item>
         <el-menu-item index="/links">Links</el-menu-item>
         <el-menu-item index="/help">Help</el-menu-item>
       </el-menu>

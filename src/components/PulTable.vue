@@ -29,14 +29,14 @@
       <el-table-column prop="action" label="Action">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="goToPulDetails(scope.$index, tableData)"
+            @click.native.prevent="viewDetail(scope.$index)"
             type="text"
             size="small"
           >
             View
           </el-button>
           &nbsp;&nbsp;
-          <el-dropdown>
+          <el-dropdown v-if="!is_predict">
             <el-button type="text" size="small" class="el-dropdown-link">
               Download
             </el-button>
@@ -96,10 +96,15 @@ export default {
       type: Function,
       default: () => Promise.resolve([]),
     },
+    customViewDetail: {
+      type: Function,
+      // default: (index) => Promise.resolve(index),
+    },
   },
   data() {
     return {
       loading: false,
+      is_predict: false,
       tableData: [],
       page_no: 1,
       page_len: 10,
@@ -127,12 +132,17 @@ export default {
         this.loading = false;
       }
     },
-    goToPulDetails: function (scope_index, tableData) {
-      let pul_id = tableData[scope_index]["id"];
+    goToPulDetails: function (scope_index) {
+      let pul_id = this.tableData[scope_index]["id"];
       //this.$router.push({ name: 'pul', params: { pul_id }});
       let routeData = this.$router.resolve({ name: "pul", params: { pul_id } });
       console.log(routeData.href);
       window.open(routeData.href, "_blank");
+    },
+    viewDetail: function (scope_index) {
+      return this.customViewDetail
+        ? this.customViewDetail(scope_index)
+        : this.goToPulDetails(scope_index);
     },
     dlData: function (scope_index, tableData, suffix) {
       let row_data = tableData[scope_index];
@@ -165,6 +175,7 @@ export default {
   created() {
     console.log("> PUL table created");
     this.getTableData();
+    this.is_predict = this.customViewDetail ? true : false;
   },
 };
 </script>
