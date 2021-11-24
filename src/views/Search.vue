@@ -30,7 +30,6 @@
                         style="width: 100%"
                       >
                         <template slot="prepend">PUL type</template>
-
                         <el-button
                           slot="append"
                           icon="el-icon-search"
@@ -121,6 +120,14 @@
               </div>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="12" :offset="6">
+              <p>Search By multiple Condition</p>
+            </el-col>
+            <el-col :span="2" :offset="2">
+              <el-button icon="el-icon-search" @click="queryAll"> </el-button>
+            </el-col>
+          </el-row>
           <el-row style="margin-top: 20px; width: 100%">
             <el-col :span="24">
               <div v-if="!init" align="center" class="grid-content">
@@ -181,27 +188,91 @@ export default {
       val_species: "",
       val_phylum: "",
       val_domain_name: "",
+      total_puls: [],
     };
   },
   methods: {
-    query: function (event) {
+    queryAll: function () {
+      this.active_name = "all";
+      var self = this;
+      var api = "/api/query/all";
+      var params = {
+        val_pul_type: this.val_pul_type,
+        val_taxonomy_id: this.val_taxonomy_id,
+        val_assembly_accession: this.val_assembly_accession,
+        val_species: this.val_species,
+        val_phylum: this.val_phylum,
+        val_domain_name: this.val_domain_name,
+      };
+      this.axios
+        .post(api, params)
+        .then(function (response) {
+          //console.log(response);
+          if (response["data"]["status"] == "OK") {
+            self.total_puls = response["data"]["data"];
+            self.reloadPulTable();
+            self.message =
+              '<strong style="color: orange;">' +
+              response["data"]["data"].length +
+              "</strong> results are found";
+            return response["data"];
+          } else if (response["data"]["status"] == "WARNING") {
+            self.message =
+              '<strong style="color: orange;">' +
+              response["data"]["data"]["total"] +
+              "</strong> results are found. " +
+              response["data"]["msg"];
+            return response["data"];
+          } else {
+            console.log("[ERROR] query msg: " + response["data"]["msg"]);
+            self.message = response["data"]["msg"];
+            return response["data"];
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    query_by_pul_type: function (event) {
+      this.active_name = "search_by_pul_type";
       if (event) {
         this.reloadPulTable();
       }
     },
-    query_by_pul_type: function (event) {
-      this.active_name = "search_by_pul_type";
-      this.query(event);
-    },
     query_by_linage: function (event) {
       this.active_name = "search_by_linage";
-      this.query(event);
+      if (event) {
+        this.reloadPulTable();
+      }
     },
     query_by_domain_name: function (event) {
       this.active_name = "search_by_domain_name";
-      this.query(event);
+      if (event) {
+        this.reloadPulTable();
+      }
     },
-    getData: function (page_no, page_len, sort_col, sort_order) {
+    getData: async function (page_no, page_len, sort_col, sort_order) {
+      if (this.active_name == "all") {
+        return {
+          data: {
+            list:
+              sort_order == "ascending"
+                ? this.total_puls
+                    .sort((a, b) => a[[sort_col]] - b[[sort_col]])
+                    .slice((page_no - 1) * page_len, page_len * page_no)
+                : this.total_puls
+                    .sort((a, b) => b[[sort_col]] - a[[sort_col]])
+                    .slice((page_no - 1) * page_len, page_len * page_no),
+            total: this.total_puls.length,
+          },
+        };
+      } else {
+        return this.getDataBySearch(page_no, page_len, sort_col, sort_order);
+      }
+    },
+
+    getDataBySearch: function (page_no, page_len, sort_col, sort_order) {
       var api = "/api/query";
 
       // 生成搜索参数
@@ -266,6 +337,7 @@ export default {
           console.log(error);
         });
     },
+
     reloadPulTable: function () {
       // 初始化message
       this.message = "";
