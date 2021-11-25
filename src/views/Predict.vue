@@ -15,11 +15,11 @@
             type="file"
             value=""
             id="file"
-            accept=".gbff"
+            accept=".fasta,.fa,.fas"
             @change="upload"
           />
           <el-button @click="chooseFile" id="upload-button">
-            choose genbank file (.gbff format) to predict
+            choose fasta file (.fasta format) to predict
           </el-button>
         </el-card>
       </el-container>

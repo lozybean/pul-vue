@@ -14,11 +14,7 @@
           </div>
           <div v-if="status === 'SUCCESS'" align="center" class="grid-content">
             <el-card class="box-card" style="width: 88%; text-align: center">
-              <PulTable
-                :get-data="getData"
-                :custom-view-detail="getDetail"
-                key="draw_count"
-              ></PulTable>
+              <pre style="text-align: left"> {{ result }} </pre>
             </el-card>
           </div>
         </el-card>
@@ -33,29 +29,27 @@
 // @ is an alias to /src
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import PulTable from "@/components/PulTable.vue";
 
 export default {
   name: "PredictResult",
   components: {
     Header,
     Footer,
-    PulTable,
   },
   data() {
     return {
       token: "",
       status: "RUNNING",
-      pul_info: [],
+      result: "",
     };
   },
   methods: {
-    getData() {
-      let api = "/api/predict/" + this.token + "/puls";
+    getResult() {
+      let api = "/api/predict/" + this.token + "/result";
       var self = this;
       return this.axios.get(api).then((response) => {
         if (response["data"]["status"] == "OK") {
-          self.pul_info = response["data"]["data"]["list"];
+          self.result = response["data"]["data"];
           return response["data"];
         } else {
           console.log("[ERROR] msg: " + response["data"]["msg"]);
@@ -88,6 +82,7 @@ export default {
   },
   mounted() {
     this.getStatus();
+    this.getResult();
   },
   created() {
     this.token = this.$route.params.token;
