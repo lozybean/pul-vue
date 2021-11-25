@@ -15,8 +15,8 @@ ENV API_URL="http://pul-api:8080/api"
 
 EXPOSE ${PORT}
 
-RUN echo -e "https://mirrors.aliyun.com/alpine/latest-stable/main\nhttps://mirrors.aliyun.com/alpine/latest-stable/community" >/etc/apk/repositories \
-    && apk --no-cache add curl gettext tini tzdata \
+RUN echo -e "http://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttp://mirrors.ustc.edu.cn/alpine/latest-stable/community" >/etc/apk/repositories \
+    && apk --no-cache add curl gettext tini tzdata --allow-untrusted \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && apk del tzdata \
     && rm -rf /var/cache/apk/*
 
