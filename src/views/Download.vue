@@ -47,9 +47,6 @@
                           >
                         </p>
                         <p>
-                          <a href="/static/media/release/chitin.zip">Chitin</a>
-                        </p>
-                        <p>
                           <a href="/static/media/release/mannan.zip">Mannan</a>
                         </p>
                         <p>
