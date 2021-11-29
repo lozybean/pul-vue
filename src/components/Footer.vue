@@ -24,7 +24,7 @@ export default {
 } */
 #footer-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .footer-main {
   font-size: 10px;
