@@ -6,21 +6,31 @@
         <el-card
           shadow="never"
           class="box-card"
-          style="width: 100%; min-height: 500px; text-align: left"
+          style="width: 100%; min-height: 500px"
         >
-          <!-- <a @click="chooseFile"
-            >choose genbank file (.gbff format) to predict</a
-          > -->
-          <input
-            type="file"
-            value=""
-            id="file"
-            accept=".fasta,.fa,.fas"
-            @change="upload"
-          />
-          <el-button @click="chooseFile" id="upload-button">
-            choose fasta file (.fasta format) to predict
-          </el-button>
+          <div id="file-container">
+            <input
+              type="file"
+              value=""
+              id="file"
+              accept=".fasta,.fa,.fas"
+              @change="upload"
+            />
+            <el-button @click="chooseFile" id="upload-button">
+              choose fasta file (.fasta format) to predict
+            </el-button>
+          </div>
+          <el-divider></el-divider>
+          <div id="fasta-input-container">
+            <textarea
+              id="fasta-input"
+              v-model="fasta"
+              placeholder="or paste protein sequence(fasta format) here"
+            />
+            <el-button id="upload-fasta" @click="predictFasta">
+              predict
+            </el-button>
+          </div>
         </el-card>
       </el-container>
     </el-main>
@@ -40,6 +50,11 @@ export default {
     Header,
     Footer,
   },
+  data() {
+    return {
+      fasta: "",
+    };
+  },
   methods: {
     chooseFile() {
       let input = document.getElementById("file");
@@ -48,7 +63,7 @@ export default {
     upload(e) {
       let formData = new FormData();
       formData.append("file", e.target.files[0]);
-      let url = "/api/predict";
+      let url = "/api/predict/file";
       let config = {
         headers: { "Content-Type": "multipart/form-data" },
       };
@@ -65,17 +80,60 @@ export default {
         }
       });
     },
+    predictFasta() {
+      let fasta = this.fasta;
+      const self = this;
+      let url = "/api/predict/fasta";
+      let config = {
+        headers: { "Content-Type": "text/plain" },
+      };
+      this.axios.post(url, fasta, config).then(function (response) {
+        if (response["data"]["status"] == "OK") {
+          let token = response["data"]["data"]["token"];
+          self.$router.push({
+            name: "predict-result",
+            params: { token: token },
+          });
+        } else {
+          console.log("[ERROR] msg: " + response["data"]["msg"]);
+        }
+      });
+    },
   },
 };
 </script>
 
 <style >
+#file-container {
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
 #file {
   opacity: 0;
+  width: 0;
 }
 #upload-button {
   text-align: center;
-  margin: 10px;
+  margin: auto;
+  border-radius: 20px;
+}
+#fasta-input-container {
+  width: 80%;
+  align-items: center;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#fasta-input {
+  width: 100%;
+  height: 100px;
+}
+#upload-fasta {
+  text-align: center;
+  margin: auto;
   border-radius: 20px;
 }
 </style>
