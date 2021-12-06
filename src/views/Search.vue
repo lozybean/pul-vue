@@ -122,7 +122,11 @@
               <p>Search By multiple Condition</p>
             </el-col> -->
             <el-col :span="4" :offset="10">
-              <el-button icon="el-icon-search" @click="queryAll">
+              <el-button
+                icon="el-icon-search"
+                @click="queryAll"
+                style="background-color: #666666; color: white"
+              >
                 Search
               </el-button>
             </el-col>
