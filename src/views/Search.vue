@@ -27,11 +27,11 @@
                         style="width: 100%"
                       >
                         <template slot="prepend">substrate</template>
-                        <el-button
+                        <!-- <el-button
                           slot="append"
                           icon="el-icon-search"
                           @click="query_by_pul_type"
-                        ></el-button>
+                        ></el-button> -->
                       </el-input>
                     </div>
                   </el-collapse-item>
@@ -82,11 +82,11 @@
                         style="width: 100%"
                       >
                         <template slot="prepend">Phylum</template>
-                        <el-button
+                        <!-- <el-button
                           slot="append"
                           icon="el-icon-search"
                           @click="query_by_linage"
-                        ></el-button>
+                        ></el-button> -->
                       </el-input>
                     </div>
                   </el-collapse-item>
@@ -105,11 +105,11 @@
                         style="width: 100%"
                       >
                         <template slot="prepend">Domain name</template>
-                        <el-button
+                        <!-- <el-button
                           slot="append"
                           icon="el-icon-search"
                           @click="query_by_domain_name"
-                        ></el-button>
+                        ></el-button> -->
                       </el-input>
                     </div>
                   </el-collapse-item>
@@ -118,11 +118,13 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12" :offset="6">
+            <!-- <el-col :span="12" :offset="6">
               <p>Search By multiple Condition</p>
-            </el-col>
-            <el-col :span="2" :offset="2">
-              <el-button icon="el-icon-search" @click="queryAll"> </el-button>
+            </el-col> -->
+            <el-col :span="4" :offset="10">
+              <el-button icon="el-icon-search" @click="queryAll">
+                Search
+              </el-button>
             </el-col>
           </el-row>
           <el-row style="margin-top: 20px; width: 100%">
