@@ -73,6 +73,7 @@ export default {
           self.status = response["data"]["data"]["status"];
           if (self.status === "SUCCESS") {
             clearInterval(this.timer);
+            this.getResult();
           }
         } else {
           console.log("[ERROR] msg: " + response["data"]["msg"]);
@@ -82,7 +83,6 @@ export default {
   },
   mounted() {
     this.getStatus();
-    this.getResult();
   },
   created() {
     this.token = this.$route.params.token;
