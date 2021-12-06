@@ -13,7 +13,7 @@
               <div class="grid-content">
                 <el-collapse v-model="active_name_lst">
                   <el-collapse-item
-                    title="Search by PUL type"
+                    title="Search by substrate"
                     name="search_by_pul_type"
                   >
                     <div @keyup.enter="query_by_pul_type">
@@ -26,7 +26,7 @@
                         v-model="val_pul_type"
                         style="width: 100%"
                       >
-                        <template slot="prepend">PUL type</template>
+                        <template slot="prepend">substrate</template>
                         <el-button
                           slot="append"
                           icon="el-icon-search"
