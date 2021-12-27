@@ -47,7 +47,7 @@
                           >
                         </p>
                         <p>
-                          <a href="/static/media/release/mannan.zip">Mannan</a>
+                          <a href="/static/media/release/beta-mannan.zip">Beta-Mannan</a>
                         </p>
                         <p>
                           <a href="/static/media/release/pectin.zip">Pectin</a>

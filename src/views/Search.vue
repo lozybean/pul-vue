@@ -19,7 +19,7 @@
                     <div @keyup.enter="query_by_pul_type">
                       <div style="text-align: left">
                         eg:
-                        <i>Agar, Alginate, Carrageenan, Mannan, Pectin</i>
+                        <i>Agar, Alginate, Carrageenan, Beta-Mannan, Pectin</i>
                       </div>
                       <el-input
                         placeholder=""
