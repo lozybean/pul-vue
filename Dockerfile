@@ -8,7 +8,7 @@ RUN yarn build
 
 FROM nginx:1.17-alpine
 
-ENV PORT=80
+# ENV PORT=443
 ENV API_URL="http://pul-api:8080/api"
 
 EXPOSE ${PORT}
