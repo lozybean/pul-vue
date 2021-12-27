@@ -2,11 +2,9 @@ FROM node:14-alpine AS builder
 
 WORKDIR /opt/web
 COPY . ./
-RUN yarn
 
-ENV PATH="./node_modules/.bin:$PATH"
-ENV NODE_ENV="production"
-RUN npm run build
+RUN yarn install
+RUN yarn build
 
 FROM nginx:1.17-alpine
 
